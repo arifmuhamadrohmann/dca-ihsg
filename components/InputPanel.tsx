@@ -17,17 +17,60 @@ type InputPanelProps = {
   onEndDateChange: (date: Date | null) => void;
 };
 
-function toMonthValue(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  return `${y}-${m}`;
-}
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-function fromMonthValue(value: string): Date {
-  const parts = value.split('-');
-  const year = parseInt(parts[0] ?? '2010', 10);
-  const month = parseInt(parts[1] ?? '1', 10);
-  return new Date(year, month - 1, 1);
+function MonthYearPicker({
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  value: Date;
+  min: Date;
+  max: Date;
+  onChange: (date: Date) => void;
+}) {
+  const minYear = min.getFullYear();
+  const maxYear = max.getFullYear();
+  const curYear = value.getFullYear();
+  const curMonth = value.getMonth();
+  const minMonth = curYear === minYear ? min.getMonth() : 0;
+  const maxMonth = curYear === maxYear ? max.getMonth() : 11;
+  const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
+
+  function setMonth(m: number) {
+    onChange(new Date(curYear, m, 1));
+  }
+
+  function setYear(y: number) {
+    const clampedMonth = Math.min(Math.max(curMonth, y === minYear ? min.getMonth() : 0), y === maxYear ? max.getMonth() : 11);
+    onChange(new Date(y, clampedMonth, 1));
+  }
+
+  return (
+    <div className="flex gap-1">
+      <select
+        value={curMonth}
+        onChange={(e) => setMonth(parseInt(e.target.value, 10))}
+        className="flex-1 px-2 py-2.5 bg-soft rounded-lg text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40"
+      >
+        {MONTHS.map((label, i) => (
+          <option key={i} value={i} disabled={i < minMonth || i > maxMonth}>
+            {label}
+          </option>
+        ))}
+      </select>
+      <select
+        value={curYear}
+        onChange={(e) => setYear(parseInt(e.target.value, 10))}
+        className="w-[72px] px-2 py-2.5 bg-soft rounded-lg text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40"
+      >
+        {years.map((y) => (
+          <option key={y} value={y}>{y}</option>
+        ))}
+      </select>
+    </div>
+  );
 }
 
 export default function InputPanel({
@@ -84,17 +127,12 @@ export default function InputPanel({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor="start-date" className="block text-[11px] text-gray-500 mb-1">
-            Mulai
-          </label>
-          <input
-            id="start-date"
-            type="month"
-            value={toMonthValue(startDate)}
-            min={toMonthValue(minDate)}
-            max={toMonthValue(isEndToday ? maxDate : endDate)}
-            onChange={(e) => onStartDateChange(fromMonthValue(e.target.value))}
-            className="w-full px-3 py-2.5 bg-soft rounded-lg text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40"
+          <label className="block text-[11px] text-gray-500 mb-1">Mulai</label>
+          <MonthYearPicker
+            value={startDate}
+            min={minDate}
+            max={isEndToday ? maxDate : endDate}
+            onChange={onStartDateChange}
           />
         </div>
         <div>
@@ -107,19 +145,18 @@ export default function InputPanel({
               Hari ini
             </button>
           ) : (
-            <div className="relative">
-              <input
-                id="end-date"
-                type="month"
-                value={toMonthValue(endDate)}
-                min={toMonthValue(startDate)}
-                max={toMonthValue(maxDate)}
-                onChange={(e) => onEndDateChange(fromMonthValue(e.target.value))}
-                className="w-full px-3 py-2.5 bg-soft rounded-lg text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40 pr-14"
-              />
+            <div className="flex gap-1 items-center">
+              <div className="flex-1">
+                <MonthYearPicker
+                  value={endDate}
+                  min={startDate}
+                  max={maxDate}
+                  onChange={onEndDateChange}
+                />
+              </div>
               <button
                 onClick={() => onEndDateChange(null)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 hover:text-gray-700"
+                className="text-[10px] text-gray-400 hover:text-gray-700 whitespace-nowrap"
               >
                 reset
               </button>

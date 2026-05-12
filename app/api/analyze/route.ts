@@ -20,7 +20,7 @@ function formatRp(n: number): string {
 }
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'API key tidak dikonfigurasi' }, { status: 500 });
   }
@@ -67,44 +67,40 @@ Berikan analisis dalam format berikut (gunakan markdown sederhana):
 Gunakan angka dari data di atas. Total sekitar 80-100 kata.`;
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.4, maxOutputTokens: 400 },
-        }),
-      }
-    );
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.4,
+        max_tokens: 400,
+      }),
+    });
 
     if (!res.ok) {
       const errText = await res.text();
-      console.error('Gemini API error:', res.status, errText);
-      if (res.status === 429) {
-        return NextResponse.json(
-          { error: 'Batas permintaan API tercapai. Tunggu beberapa detik lalu coba lagi.' },
-          { status: 429 }
-        );
-      }
-      return NextResponse.json({ error: `Gemini API error: ${res.status}` }, { status: 502 });
+      console.error('Groq API error:', res.status, errText);
+      return NextResponse.json({ error: `Groq API error: ${res.status}` }, { status: 502 });
     }
 
     const json = (await res.json()) as {
-      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      choices?: Array<{ message?: { content?: string } }>;
       error?: { message?: string };
     };
 
     if (json.error) {
-      console.error('Gemini response error:', json.error);
-      return NextResponse.json({ error: json.error.message ?? 'Gemini error' }, { status: 502 });
+      console.error('Groq response error:', json.error);
+      return NextResponse.json({ error: json.error.message ?? 'Groq error' }, { status: 502 });
     }
 
-    const text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+    const text = json.choices?.[0]?.message?.content ?? '';
     return NextResponse.json({ narrative: text });
   } catch (err) {
     console.error('Fetch error:', err);
-    return NextResponse.json({ error: 'Gagal menghubungi Gemini API' }, { status: 502 });
+    return NextResponse.json({ error: 'Gagal menghubungi Groq API' }, { status: 502 });
   }
 }

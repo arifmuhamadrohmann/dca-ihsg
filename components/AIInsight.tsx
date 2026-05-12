@@ -33,12 +33,10 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
   const [narrative, setNarrative] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [retryIn, setRetryIn] = useState<number | null>(null);
 
   async function fetchNarrative() {
     setLoading(true);
     setError(null);
-    setRetryIn(null);
     try {
       const res = await fetch('/api/analyze', {
         method: 'POST',
@@ -58,24 +56,6 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       });
 
       const json = (await res.json()) as { narrative?: string; error?: string };
-
-      if (res.status === 429) {
-        // Auto-retry after countdown
-        setLoading(false);
-        let secs = 5;
-        setRetryIn(secs);
-        const timer = setInterval(() => {
-          secs -= 1;
-          if (secs <= 0) {
-            clearInterval(timer);
-            setRetryIn(null);
-            void fetchNarrative();
-          } else {
-            setRetryIn(secs);
-          }
-        }, 1000);
-        return;
-      }
 
       if (!res.ok || json.error) {
         throw new Error(json.error ?? `Error ${res.status}`);
@@ -98,12 +78,6 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
         >
           <span>Analisis hasil investasi ini</span>
         </button>
-      )}
-
-      {retryIn !== null && (
-        <div className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 text-[13px]">
-          <span>Terlalu banyak permintaan — mencoba ulang dalam {retryIn} detik…</span>
-        </div>
       )}
 
       {loading && (

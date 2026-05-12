@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install deps
-        run: pip install yfinance pandas
+        run: pip install -r scripts/requirements.txt
       - name: Fetch data
         run: python scripts/fetch_data.py
       - name: Commit if changed

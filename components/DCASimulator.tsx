@@ -1,13 +1,15 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { simulateDCA } from '@/lib/dca';
+import { CRISIS_MARKERS } from '@/lib/crisis-markers';
 import type { MonthlyPrice, DCAResult } from '@/lib/types';
 import InputPanel from './InputPanel';
 import SummaryCard from './SummaryCard';
 import PortfolioChart from './PortfolioChart';
 import ActionsBar from './ActionsBar';
+import AIInsight from './AIInsight';
 import MethodologyAccordion from './MethodologyAccordion';
 import Disclaimer from './Disclaimer';
 import Footer from './Footer';
@@ -35,6 +37,12 @@ export default function DCASimulator({ prices, lastUpdated }: DCASimulatorProps)
     }
   }, [monthlyAmount, startDate, effectiveEnd, prices]);
 
+  const visibleCrises = useMemo(() => {
+    const firstDate = format(startDate, 'yyyy-MM-dd');
+    const lastDate = format(effectiveEnd, 'yyyy-MM-dd');
+    return CRISIS_MARKERS.filter((c) => c.startDate >= firstDate && c.startDate <= lastDate);
+  }, [startDate, effectiveEnd]);
+
   return (
     <>
       <InputPanel
@@ -54,6 +62,12 @@ export default function DCASimulator({ prices, lastUpdated }: DCASimulatorProps)
             <PortfolioChart steps={result.steps} />
           </div>
           <ActionsBar />
+          <AIInsight
+            result={result}
+            startDate={startDate}
+            endDate={effectiveEnd}
+            visibleCrises={visibleCrises}
+          />
         </>
       ) : (
         <div className="mx-4 mb-4 p-4 rounded-xl bg-soft text-center text-[13px] text-gray-400">

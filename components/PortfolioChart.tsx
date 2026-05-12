@@ -1,6 +1,14 @@
 'use client';
 
-import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ReferenceLine,
+  ResponsiveContainer,
+} from 'recharts';
 import { CRISIS_MARKERS } from '@/lib/crisis-markers';
 import { formatRupiah, formatYAxis } from '@/lib/format';
 import type { DCAStep } from '@/lib/types';
@@ -8,6 +16,35 @@ import type { DCAStep } from '@/lib/types';
 type PortfolioChartProps = {
   steps: DCAStep[];
 };
+
+const SHORT_NAMES: Record<number, string> = {
+  1998: 'Krismon',
+  2008: 'GFC',
+  2013: 'Taper',
+  2015: 'Bear IDR',
+  2020: 'COVID',
+};
+
+interface CrisisLabelProps {
+  viewBox?: { x: number; y: number; width: number; height: number };
+  year: number;
+}
+
+function CrisisLabel({ viewBox, year }: CrisisLabelProps) {
+  if (!viewBox) return null;
+  const { x, y } = viewBox;
+  const name = SHORT_NAMES[year] ?? String(year);
+  return (
+    <g>
+      <text x={x + 3} y={y + 13} fontSize={8} fill="#A32D2D" fontWeight="600">
+        &apos;{String(year).slice(2)}
+      </text>
+      <text x={x + 3} y={y + 23} fontSize={7} fill="#A32D2D" opacity={0.85}>
+        {name}
+      </text>
+    </g>
+  );
+}
 
 function pickTicks(steps: DCAStep[]): string[] {
   const byYear = new Map<string, string>();
@@ -78,11 +115,26 @@ export default function PortfolioChart({ steps }: PortfolioChartProps) {
                 strokeWidth={0.5}
                 strokeDasharray="3 2"
                 opacity={0.7}
-                label={{ value: `'${String(c.year).slice(2)}`, position: 'insideTopRight', fontSize: 8, fill: '#A32D2D' }}
+                label={<CrisisLabel year={c.year} />}
               />
             ))}
-            <Line type="monotone" dataKey="portfolioValue" stroke="#1D9E75" strokeWidth={2} dot={false} isAnimationActive={false} />
-            <Line type="monotone" dataKey="cumulativeInvested" stroke="#888780" strokeWidth={1.5} strokeDasharray="3 3" dot={false} isAnimationActive={false} />
+            <Line
+              type="monotone"
+              dataKey="portfolioValue"
+              stroke="#1D9E75"
+              strokeWidth={2}
+              dot={false}
+              isAnimationActive={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="cumulativeInvested"
+              stroke="#888780"
+              strokeWidth={1.5}
+              strokeDasharray="3 3"
+              dot={false}
+              isAnimationActive={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -98,7 +150,16 @@ export default function PortfolioChart({ steps }: PortfolioChartProps) {
         {visibleCrises.length > 0 && (
           <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
             <svg width="10" height="14" viewBox="0 0 2 14" aria-hidden="true">
-              <line x1="1" y1="0" x2="1" y2="14" stroke="#E24B4A" strokeWidth="1.5" strokeDasharray="3 2" strokeOpacity="0.7" />
+              <line
+                x1="1"
+                y1="0"
+                x2="1"
+                y2="14"
+                stroke="#E24B4A"
+                strokeWidth="1.5"
+                strokeDasharray="3 2"
+                strokeOpacity="0.7"
+              />
             </svg>
             Krisis historis ({visibleCrises.map((c) => `'${String(c.year).slice(2)}`).join(', ')})
           </span>

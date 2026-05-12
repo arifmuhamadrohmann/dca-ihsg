@@ -17,7 +17,7 @@ type InputPanelProps = {
   onEndDateChange: (date: Date | null) => void;
 };
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 function MonthYearPicker({
   value,
@@ -43,7 +43,10 @@ function MonthYearPicker({
   }
 
   function setYear(y: number) {
-    const clampedMonth = Math.min(Math.max(curMonth, y === minYear ? min.getMonth() : 0), y === maxYear ? max.getMonth() : 11);
+    const clampedMonth = Math.min(
+      Math.max(curMonth, y === minYear ? min.getMonth() : 0),
+      y === maxYear ? max.getMonth() : 11
+    );
     onChange(new Date(y, clampedMonth, 1));
   }
 
@@ -66,7 +69,9 @@ function MonthYearPicker({
         className="w-[72px] px-2 py-2.5 bg-soft rounded-lg text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40"
       >
         {years.map((y) => (
-          <option key={y} value={y}>{y}</option>
+          <option key={y} value={y}>
+            {y}
+          </option>
         ))}
       </select>
     </div>
@@ -145,20 +150,18 @@ export default function InputPanel({
               Hari ini
             </button>
           ) : (
-            <div className="flex gap-1 items-center">
-              <div className="flex-1">
-                <MonthYearPicker
-                  value={endDate}
-                  min={startDate}
-                  max={maxDate}
-                  onChange={onEndDateChange}
-                />
-              </div>
+            <div className="space-y-1">
+              <MonthYearPicker
+                value={endDate}
+                min={startDate}
+                max={maxDate}
+                onChange={onEndDateChange}
+              />
               <button
                 onClick={() => onEndDateChange(null)}
-                className="text-[10px] text-gray-400 hover:text-gray-700 whitespace-nowrap"
+                className="w-full py-1 rounded-md text-[11px] text-brand-success-label bg-brand-success-bg hover:bg-brand-success-border/40 transition-colors"
               >
-                reset
+                ← Sampai hari ini
               </button>
             </div>
           )}

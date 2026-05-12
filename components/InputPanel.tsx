@@ -1,5 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
+function formatRibu(n: number): string {
+  return n.toLocaleString('id-ID');
+}
+
 type InputPanelProps = {
   monthlyAmount: number;
   startDate: Date;
@@ -35,6 +41,11 @@ export default function InputPanel({
   onEndDateChange,
 }: InputPanelProps) {
   const isEndToday = endDate === null;
+  const [displayValue, setDisplayValue] = useState(formatRibu(monthlyAmount));
+
+  useEffect(() => {
+    setDisplayValue(formatRibu(monthlyAmount));
+  }, [monthlyAmount]);
 
   return (
     <section className="px-4 py-4 bg-card">
@@ -50,13 +61,21 @@ export default function InputPanel({
           </span>
           <input
             id="nominal"
-            type="number"
-            min={100_000}
-            step={100_000}
-            value={monthlyAmount}
+            type="text"
+            inputMode="numeric"
+            value={displayValue}
             onChange={(e) => {
-              const val = parseInt(e.target.value, 10);
-              onMonthlyAmountChange(isNaN(val) || val <= 0 ? 100_000 : val);
+              const raw = e.target.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+              setDisplayValue(raw === '' ? '' : formatRibu(parseInt(raw, 10)));
+              const num = parseInt(raw, 10);
+              if (!isNaN(num) && num > 0) onMonthlyAmountChange(num);
+            }}
+            onBlur={() => {
+              const raw = displayValue.replace(/\./g, '');
+              const num = parseInt(raw, 10);
+              const safe = isNaN(num) || num <= 0 ? 100_000 : num;
+              setDisplayValue(formatRibu(safe));
+              onMonthlyAmountChange(safe);
             }}
             className="w-full pl-9 pr-3 py-2.5 bg-soft rounded-lg text-[16px] font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-success/40"
           />

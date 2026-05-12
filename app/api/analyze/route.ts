@@ -22,56 +22,86 @@ function formatRp(n: number): string {
 export async function POST(req: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
+    return NextResponse.json({ error: 'API key tidak dikonfigurasi' }, { status: 500 });
   }
 
-  const body = (await req.json()) as AnalyzeRequest;
+  let body: AnalyzeRequest;
+  try {
+    body = (await req.json()) as AnalyzeRequest;
+  } catch {
+    return NextResponse.json({ error: 'Request tidak valid' }, { status: 400 });
+  }
 
   const crisisText =
     body.crises.length > 0
-      ? `Selama periode ini terjadi krisis: ${body.crises.join(', ')}.`
-      : 'Periode ini relatif tidak ada krisis besar.';
+      ? `Periode ini melewati krisis: ${body.crises.join(', ')}.`
+      : 'Periode ini relatif stabil tanpa krisis besar.';
 
   const isProfit = body.gain >= 0;
 
-  const prompt = `Kamu adalah asisten finansial yang menjelaskan hasil simulasi investasi DCA (Dollar Cost Averaging) di IHSG kepada investor dengan bahasa Indonesia yang hangat, mudah dipahami, dan menarik.
+  const prompt = `Kamu adalah analis investasi yang memberikan analisis singkat hasil simulasi DCA (Dollar Cost Averaging) di IHSG kepada investor pemula. Gunakan bahasa Indonesia yang jelas dan mudah dipahami.
 
-Berikut data simulasi:
+Data simulasi:
 - Investasi rutin: ${formatRp(body.monthlyAmount)} per bulan
 - Periode: ${body.startDate} hingga ${body.endDate} (${body.periodLabel})
-- Total yang disetorkan: ${formatRp(body.totalInvested)}
-- Nilai portofolio akhir: ${formatRp(body.finalValue)}
+- Total disetorkan: ${formatRp(body.totalInvested)}
+- Nilai akhir portofolio: ${formatRp(body.finalValue)}
 - ${isProfit ? 'Keuntungan' : 'Kerugian'}: ${formatRp(Math.abs(body.gain))} (${body.returnPct.toFixed(1)}%)
-- XIRR (imbal hasil tahunan): ${body.xirr.toFixed(1)}% per tahun
+- XIRR (return tahunan): ${body.xirr.toFixed(1)}% per tahun
 - ${crisisText}
 
-Tulis narasi singkat (3 paragraf, total 120–160 kata) dalam Bahasa Indonesia yang:
-1. Paragraf 1: Ceritakan perjalanan investasi — kapan mulai, bagaimana awalnya, dan krisis apa yang dilalui
-2. Paragraf 2: Jelaskan dampak krisis terhadap portofolio dan bagaimana DCA membantu melewatinya
-3. Paragraf 3: Simpulkan hasil akhir dengan nada positif dan edukatif
+Berikan analisis dalam format berikut (gunakan markdown sederhana):
 
-Gunakan bahasa bercerita yang mengalir, bukan bullet points. Jangan ulangi angka terlalu banyak.`;
+**Ringkasan Hasil**
+[1-2 kalimat ringkasan performa portofolio]
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.7, maxOutputTokens: 400 },
-      }),
+**Dampak DCA**
+[1-2 kalimat bagaimana strategi DCA membantu menghadapi volatilitas]
+
+**Apa artinya ini?**
+[1-2 kalimat konteks dibanding inflasi/deposito/instrumen lain]
+
+**Catatan Penting**
+[1 kalimat disclaimer singkat]
+
+Gunakan angka dari data di atas. Total sekitar 80-100 kata.`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.4, maxOutputTokens: 400 },
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Gemini API error:', res.status, errText);
+      return NextResponse.json(
+        { error: `Gemini API error: ${res.status}` },
+        { status: 502 }
+      );
     }
-  );
 
-  if (!res.ok) {
-    return NextResponse.json({ error: 'Gemini API error' }, { status: 502 });
+    const json = (await res.json()) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      error?: { message?: string };
+    };
+
+    if (json.error) {
+      console.error('Gemini response error:', json.error);
+      return NextResponse.json({ error: json.error.message ?? 'Gemini error' }, { status: 502 });
+    }
+
+    const text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+    return NextResponse.json({ narrative: text });
+  } catch (err) {
+    console.error('Fetch error:', err);
+    return NextResponse.json({ error: 'Gagal menghubungi Gemini API' }, { status: 502 });
   }
-
-  const json = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-  };
-
-  const text = json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-  return NextResponse.json({ narrative: text });
 }

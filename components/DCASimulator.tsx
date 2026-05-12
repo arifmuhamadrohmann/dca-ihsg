@@ -49,8 +49,10 @@ export default function DCASimulator({ prices, lastUpdated }: DCASimulatorProps)
       />
       {result ? (
         <>
-          <SummaryCard result={result} />
-          <PortfolioChart steps={result.steps} />
+          <div id="export-card" className="bg-card">
+            <SummaryCard result={result} />
+            <PortfolioChart steps={result.steps} />
+          </div>
           <ActionsBar />
         </>
       ) : (

@@ -8,7 +8,7 @@ export default function ActionsBar() {
   const [shared, setShared] = useState(false);
 
   async function handleSavePNG() {
-    const node = document.getElementById('share-card');
+    const node = document.getElementById('export-card');
     if (!node) return;
     setSaving(true);
     try {

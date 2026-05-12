@@ -2,7 +2,7 @@
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
 import { CRISIS_MARKERS } from '@/lib/crisis-markers';
-import { formatRupiah } from '@/lib/format';
+import { formatRupiah, formatYAxis } from '@/lib/format';
 import type { DCAStep } from '@/lib/types';
 
 type PortfolioChartProps = {
@@ -55,11 +55,11 @@ export default function PortfolioChart({ steps }: PortfolioChartProps) {
               tickLine={false}
             />
             <YAxis
-              tickFormatter={(v: number) => formatRupiah(v, { compact: true })}
+              tickFormatter={(v: number) => formatYAxis(v)}
               tick={{ fontSize: 9, fill: '#888780' }}
               axisLine={false}
               tickLine={false}
-              width={52}
+              width={58}
               domain={[0, Math.round(maxVal * 1.1)]}
             />
             <Tooltip
@@ -86,7 +86,7 @@ export default function PortfolioChart({ steps }: PortfolioChartProps) {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex gap-4 mt-2">
+      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
         <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
           <span className="inline-block w-3.5 h-0.5 bg-brand-success rounded" />
           Nilai portofolio
@@ -95,6 +95,14 @@ export default function PortfolioChart({ steps }: PortfolioChartProps) {
           <span className="inline-block w-3.5 border-t border-dashed border-gray-400" />
           Total setoran
         </span>
+        {visibleCrises.length > 0 && (
+          <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+            <svg width="10" height="14" viewBox="0 0 2 14" aria-hidden="true">
+              <line x1="1" y1="0" x2="1" y2="14" stroke="#E24B4A" strokeWidth="1.5" strokeDasharray="3 2" strokeOpacity="0.7" />
+            </svg>
+            Krisis historis ({visibleCrises.map((c) => `'${String(c.year).slice(2)}`).join(', ')})
+          </span>
+        )}
       </div>
     </div>
   );

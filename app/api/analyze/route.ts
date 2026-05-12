@@ -82,10 +82,13 @@ Gunakan angka dari data di atas. Total sekitar 80-100 kata.`;
     if (!res.ok) {
       const errText = await res.text();
       console.error('Gemini API error:', res.status, errText);
-      return NextResponse.json(
-        { error: `Gemini API error: ${res.status}` },
-        { status: 502 }
-      );
+      if (res.status === 429) {
+        return NextResponse.json(
+          { error: 'Batas permintaan API tercapai. Tunggu beberapa detik lalu coba lagi.' },
+          { status: 429 }
+        );
+      }
+      return NextResponse.json({ error: `Gemini API error: ${res.status}` }, { status: 502 });
     }
 
     const json = (await res.json()) as {

@@ -76,7 +76,6 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
           onClick={fetchNarrative}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-brand-success/30 bg-brand-success-bg text-brand-success text-[13px] font-medium hover:bg-brand-success/10 transition-colors"
         >
-          <span>📊</span>
           <span>Analisis hasil investasi ini</span>
         </button>
       )}
@@ -123,9 +122,8 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       {narrative && (
         <div className="rounded-xl border border-brand-success/20 bg-brand-success-bg p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="flex items-center gap-1.5 text-[12px] font-semibold text-brand-success">
-              <span>📊</span>
-              <span>Analisis AI</span>
+            <span className="text-[12px] font-semibold text-brand-success">
+              Analisis AI
             </span>
             <button
               onClick={fetchNarrative}

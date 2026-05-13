@@ -14,16 +14,14 @@ export default function RankingRow({ result }: RankingRowProps) {
   if (!winner || !loser) return null;
 
   return (
-    <div className="mx-4 mb-3 px-3 py-2.5 rounded-lg border border-black/[0.08] text-[12px]">
-      <span className="font-medium" style={{ color: STRATEGY_CONFIG[winner.strategy].color }}>
-        Pemenang: {winner.label}
-      </span>
+    <div className="mx-6 mb-4 px-4 py-3 bg-[#e2f6d5] rounded-[16px] text-[12px]">
+      <span className="font-semibold text-[#054d28]">Pemenang: {winner.label}</span>
       {' · '}
-      <span className="text-gray-700">
+      <span className="text-[#0e0f0c]">
         +{winner.returnPct.toFixed(0)}% · {formatRupiah(winner.finalValue, { compact: true })}
       </span>
       <br />
-      <span className="text-gray-400">
+      <span className="text-[#868685]">
         Terendah: {loser.label} · +{loser.returnPct.toFixed(0)}% ·{' '}
         {formatRupiah(loser.finalValue, { compact: true })}
       </span>

@@ -15,9 +15,9 @@ const constantRate: BIRate[] = [
 ];
 
 const variableRate: BIRate[] = [
-  { date: '2020-01-31', rate: 6.00 },
-  { date: '2020-02-29', rate: 5.50 },
-  { date: '2020-03-31', rate: 5.00 },
+  { date: '2020-01-31', rate: 6.0 },
+  { date: '2020-02-29', rate: 5.5 },
+  { date: '2020-03-31', rate: 5.0 },
 ];
 
 describe('simulateDCADeposito', () => {

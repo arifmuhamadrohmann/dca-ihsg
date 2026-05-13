@@ -17,13 +17,13 @@ function renderLine(line: string, key: number) {
   if (isBold) {
     const text = line.replace(/\*\*/g, '');
     return (
-      <p key={key} className="text-[12px] font-semibold text-brand-success mt-3 mb-0.5">
+      <p key={key} className="text-[12px] font-semibold text-[#0e0f0c] mt-3 mb-0.5">
         {text}
       </p>
     );
   }
   return (
-    <p key={key} className="text-[13px] text-gray-700 leading-relaxed">
+    <p key={key} className="text-[13px] text-[#454745] leading-relaxed">
       {line}
     </p>
   );
@@ -70,18 +70,18 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
   }
 
   return (
-    <div className="mx-4 mb-4">
+    <div className="mx-6 mb-5">
       {!narrative && !loading && !error && (
         <button
           onClick={fetchNarrative}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-brand-success/30 bg-brand-success-bg text-brand-success text-[13px] font-medium hover:bg-brand-success/10 transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
         >
           <span>Analisis hasil investasi ini</span>
         </button>
       )}
 
       {loading && (
-        <div className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-success-bg text-brand-success text-[13px]">
+        <div className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[24px] bg-[#e8ebe6] text-[#0e0f0c] text-[13px]">
           <svg
             className="animate-spin h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
@@ -108,11 +108,11 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       )}
 
       {error && (
-        <div className="px-4 py-3 rounded-xl bg-red-50 border border-red-100 text-red-500 text-[13px] flex items-center justify-between">
+        <div className="px-4 py-3 rounded-[16px] bg-red-50 border border-red-100 text-red-500 text-[13px] flex items-center justify-between">
           <span>{error}</span>
           <button
             onClick={fetchNarrative}
-            className="ml-3 shrink-0 px-3 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 text-[12px] transition-colors"
+            className="ml-3 shrink-0 px-3 py-1 rounded-[12px] bg-red-100 hover:bg-red-200 text-red-600 text-[12px] transition-colors"
           >
             Coba lagi
           </button>
@@ -120,13 +120,13 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       )}
 
       {narrative && (
-        <div className="rounded-xl border border-brand-success/20 bg-brand-success-bg p-4">
+        <div className="bg-canvas border border-black/[0.06] rounded-[24px] p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[12px] font-semibold text-brand-success">Analisis AI</span>
+            <span className="text-[12px] font-semibold text-[#0e0f0c]">Analisis AI</span>
             <button
               onClick={fetchNarrative}
               disabled={loading}
-              className="text-[11px] text-brand-success/60 hover:text-brand-success transition-colors disabled:opacity-50"
+              className="text-[11px] text-[#868685] hover:text-[#0e0f0c] transition-colors disabled:opacity-50"
             >
               Perbarui ↺
             </button>

@@ -8,26 +8,26 @@ type ComparisonGridProps = {
 
 export default function ComparisonGrid({ result }: ComparisonGridProps) {
   return (
-    <div className="mx-4 mb-4 grid grid-cols-2 gap-2">
+    <div className="mx-6 mb-5 grid grid-cols-2 gap-3">
       {result.strategies.map((s) => {
         const config = STRATEGY_CONFIG[s.strategy];
         const isWinner = s.strategy === result.winner;
         return (
           <div
             key={s.strategy}
-            className="p-3 rounded-lg border border-black/[0.08] bg-card relative overflow-hidden"
+            className="p-4 rounded-[24px] bg-canvas relative overflow-hidden"
             style={{ borderLeftWidth: 3, borderLeftColor: config.color }}
           >
             {isWinner && (
-              <span className="absolute top-2 right-2 text-[9px] px-1.5 py-0.5 rounded bg-soft text-gray-400">
+              <span className="absolute top-2 right-2 text-[9px] px-2 py-0.5 rounded-full bg-[#9fe870] text-[#0e0f0c] font-semibold">
                 terbaik
               </span>
             )}
-            <div className="text-[10px] text-gray-400 mb-0.5">{s.label}</div>
-            <div className="text-[15px] font-medium text-gray-900">
+            <div className="text-[11px] text-[#868685] mb-0.5">{s.label}</div>
+            <div className="text-[16px] font-bold text-[#0e0f0c]">
               {formatRupiah(s.finalValue, { compact: true })}
             </div>
-            <div className="text-[10px] text-gray-400 mt-0.5">
+            <div className="text-[11px] text-[#868685] mt-0.5">
               +{s.returnPct.toFixed(1)}% · XIRR {s.xirr.toFixed(1)}%
             </div>
           </div>

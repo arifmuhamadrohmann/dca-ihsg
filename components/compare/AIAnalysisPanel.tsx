@@ -60,11 +60,11 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
   }
 
   return (
-    <div className="mx-4 mb-4 p-4 rounded-xl border border-black/[0.08] bg-card">
+    <div className="mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-medium text-gray-900">Analisis AI</span>
-          <span className="text-[9px] px-1.5 py-0.5 rounded bg-soft text-gray-400">
+          <span className="text-[13px] font-semibold text-[#0e0f0c]">Analisis AI</span>
+          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#e8ebe6] text-[#868685]">
             Groq · Llama 3.3
           </span>
         </div>
@@ -72,7 +72,7 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
           <button
             onClick={() => fetchAnalysis(true)}
             disabled={loading}
-            className="text-[11px] text-blue-500 hover:text-blue-700 disabled:opacity-40 transition-colors"
+            className="text-[11px] text-[#868685] hover:text-[#0e0f0c] disabled:opacity-40 transition-colors"
           >
             Perbarui ↺
           </button>
@@ -82,7 +82,7 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
       {!requested && !analysis && !loading && (
         <button
           onClick={handleRequest}
-          className="w-full py-2.5 rounded-lg border border-black/10 text-[12px] text-gray-500 hover:bg-soft transition-colors"
+          className="w-full py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
         >
           Hasilkan Analisis
         </button>
@@ -92,9 +92,9 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
         <div className="space-y-4 animate-pulse">
           {SECTIONS.map((s) => (
             <div key={s.key}>
-              <div className="h-2.5 w-28 bg-soft rounded mb-2" />
-              <div className="h-2.5 w-full bg-soft rounded mb-1" />
-              <div className="h-2.5 w-4/5 bg-soft rounded" />
+              <div className="h-2.5 w-28 bg-[#e8ebe6] rounded mb-2" />
+              <div className="h-2.5 w-full bg-[#e8ebe6] rounded mb-1" />
+              <div className="h-2.5 w-4/5 bg-[#e8ebe6] rounded" />
             </div>
           ))}
         </div>
@@ -105,7 +105,7 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
           <span>{error}</span>
           <button
             onClick={() => fetchAnalysis(true)}
-            className="ml-2 px-2 py-1 rounded bg-red-50 hover:bg-red-100 text-[11px] transition-colors"
+            className="ml-2 px-2 py-1 rounded-[8px] bg-red-50 hover:bg-red-100 text-[11px] transition-colors"
           >
             Coba lagi
           </button>
@@ -117,13 +117,13 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
           <div className="space-y-3">
             {SECTIONS.map((s) => (
               <div key={s.key}>
-                <p className="text-[12px] font-medium text-gray-800 mb-0.5">{s.title}</p>
-                <p className="text-[11px] text-gray-500 leading-relaxed">{analysis[s.key]}</p>
+                <p className="text-[12px] font-semibold text-[#0e0f0c] mb-0.5">{s.title}</p>
+                <p className="text-[11px] text-[#454745] leading-relaxed">{analysis[s.key]}</p>
               </div>
             ))}
           </div>
           {analysis.fromCache && (
-            <p className="text-[10px] text-gray-300 mt-3 italic">
+            <p className="text-[10px] text-[#868685] mt-3 italic">
               Hasil dari cache · klik Perbarui untuk fetch ulang
             </p>
           )}

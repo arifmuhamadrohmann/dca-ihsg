@@ -52,8 +52,8 @@ export default function StrategyPicker({ selected, onChange }: StrategyPickerPro
   }
 
   return (
-    <div className="mx-4 mb-4">
-      <p className="text-[11px] text-gray-500 mb-2">Bandingkan strategi</p>
+    <div className="mx-6 mb-5">
+      <p className="text-[11px] font-semibold text-[#868685] uppercase tracking-wide mb-2">Bandingkan strategi</p>
       <div className="flex flex-wrap gap-1.5">
         {ALL_STRATEGIES.map((strategy) => {
           const config = STRATEGY_CONFIG[strategy];
@@ -64,7 +64,7 @@ export default function StrategyPicker({ selected, onChange }: StrategyPickerPro
               onClick={() => toggle(strategy)}
               className={`
                 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] border transition-colors
-                ${isSelected ? config.selectedClasses : 'bg-card text-gray-500 border-black/15 hover:border-black/30'}
+                ${isSelected ? config.selectedClasses : 'bg-canvas text-[#454745] border-[#0e0f0c]/20 hover:border-[#0e0f0c]/40'}
               `}
             >
               <span

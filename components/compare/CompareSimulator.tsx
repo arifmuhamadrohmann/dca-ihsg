@@ -11,7 +11,7 @@ import ComparisonChart from './ComparisonChart';
 import ComparisonGrid from './ComparisonGrid';
 import CompareActionsBar from './CompareActionsBar';
 import AIAnalysisPanel from './AIAnalysisPanel';
-import MethodologyAccordion from '@/components/MethodologyAccordion';
+import CompareMethodologyAccordion from './CompareMethodologyAccordion';
 import Disclaimer from '@/components/Disclaimer';
 import Footer from '@/components/Footer';
 
@@ -90,7 +90,7 @@ export default function CompareSimulator({
           Pilih minimal 1 strategi untuk dibandingkan.
         </div>
       )}
-      <MethodologyAccordion />
+      <CompareMethodologyAccordion />
       <Disclaimer />
       <Footer lastUpdated={lastUpdated} />
     </>

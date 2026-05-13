@@ -56,11 +56,7 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       });
 
       const json = (await res.json()) as { narrative?: string; error?: string };
-
-      if (!res.ok || json.error) {
-        throw new Error(json.error ?? `Error ${res.status}`);
-      }
-
+      if (!res.ok || json.error) throw new Error(json.error ?? `Error ${res.status}`);
       setNarrative(json.narrative ?? '');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Terjadi kesalahan');
@@ -70,73 +66,69 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
   }
 
   return (
-    <div className="mx-6 mb-5">
+    <div className="mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]">
+      {/* Header — always visible */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-semibold text-[#0e0f0c]">Analisis AI</span>
+          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#e8ebe6] text-[#868685]">
+            Groq · Llama 3.1
+          </span>
+        </div>
+        {narrative && (
+          <button
+            onClick={fetchNarrative}
+            disabled={loading}
+            className="text-[11px] text-[#868685] hover:text-[#0e0f0c] disabled:opacity-40 transition-colors"
+          >
+            Perbarui ↺
+          </button>
+        )}
+      </div>
+
+      {/* Idle — show CTA button */}
       {!narrative && !loading && !error && (
         <button
           onClick={fetchNarrative}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
+          className="w-full py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
         >
-          <span>Analisis hasil investasi ini</span>
+          Analisis hasil investasi ini
         </button>
       )}
 
+      {/* Loading skeleton */}
       {loading && (
-        <div className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[24px] bg-[#e8ebe6] text-[#0e0f0c] text-[13px]">
-          <svg
-            className="animate-spin h-4 w-4"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-            />
-          </svg>
-          <span>Sedang menganalisis…</span>
+        <div className="space-y-3 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <div key={i}>
+              <div className="h-2.5 w-28 bg-[#e8ebe6] rounded mb-2" />
+              <div className="h-2.5 w-full bg-[#e8ebe6] rounded mb-1" />
+              <div className="h-2.5 w-4/5 bg-[#e8ebe6] rounded" />
+            </div>
+          ))}
         </div>
       )}
 
-      {error && (
-        <div className="px-4 py-3 rounded-[16px] bg-red-50 border border-red-100 text-red-500 text-[13px] flex items-center justify-between">
+      {/* Error */}
+      {error && !loading && (
+        <div className="text-[12px] text-red-500 flex items-center justify-between">
           <span>{error}</span>
           <button
             onClick={fetchNarrative}
-            className="ml-3 shrink-0 px-3 py-1 rounded-[12px] bg-red-100 hover:bg-red-200 text-red-600 text-[12px] transition-colors"
+            className="ml-2 px-2 py-1 rounded-[8px] bg-red-50 hover:bg-red-100 text-[11px] transition-colors"
           >
             Coba lagi
           </button>
         </div>
       )}
 
-      {narrative && (
-        <div className="bg-canvas border border-black/[0.06] rounded-[24px] p-5">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[12px] font-semibold text-[#0e0f0c]">Analisis AI</span>
-            <button
-              onClick={fetchNarrative}
-              disabled={loading}
-              className="text-[11px] text-[#868685] hover:text-[#0e0f0c] transition-colors disabled:opacity-50"
-            >
-              Perbarui ↺
-            </button>
-          </div>
-          <div>
-            {narrative
-              .split('\n')
-              .filter(Boolean)
-              .map((line, i) => renderLine(line, i))}
-          </div>
+      {/* Result */}
+      {narrative && !loading && (
+        <div>
+          {narrative
+            .split('\n')
+            .filter(Boolean)
+            .map((line, i) => renderLine(line, i))}
         </div>
       )}
     </div>

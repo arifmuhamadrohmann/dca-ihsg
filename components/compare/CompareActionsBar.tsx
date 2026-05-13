@@ -34,7 +34,7 @@ export default function CompareActionsBar() {
   }
 
   return (
-    <div className="mx-6 mb-5 grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-2 gap-2 px-4 pb-4">
       <button
         onClick={handleSavePNG}
         disabled={saving}

@@ -8,14 +8,14 @@ type ComparisonGridProps = {
 
 export default function ComparisonGrid({ result }: ComparisonGridProps) {
   return (
-    <div className="mx-6 mb-5 grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 gap-3 p-4">
       {result.strategies.map((s) => {
         const config = STRATEGY_CONFIG[s.strategy];
         const isWinner = s.strategy === result.winner;
         return (
           <div
             key={s.strategy}
-            className="p-4 rounded-[24px] bg-canvas relative overflow-hidden"
+            className="p-4 rounded-[20px] bg-[#f7f8f6] border border-black/[0.07] relative overflow-hidden"
             style={{ borderLeftWidth: 3, borderLeftColor: config.color }}
           >
             {isWinner && (

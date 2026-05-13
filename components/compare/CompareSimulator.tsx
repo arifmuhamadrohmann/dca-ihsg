@@ -94,11 +94,12 @@ export default function CompareSimulator({
                   maximumFractionDigits: 1,
                 });
                 return (
-                  <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
+                  <div className="grid grid-cols-2 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
                     {[
+                      { label: 'Nominal / bulan', value: monthlyAmount.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', notation: 'compact', maximumFractionDigits: 1 }) },
+                      { label: 'Total setoran', value: totalInvested },
                       { label: 'Bulan investasi', value: `${months} bln` },
                       { label: 'Periode', value: periodLabel },
-                      { label: 'Total setoran', value: totalInvested },
                     ].map(({ label, value }) => (
                       <div key={label}>
                         <p className="text-[10px] font-semibold text-[#868685] mb-0.5">{label}</p>

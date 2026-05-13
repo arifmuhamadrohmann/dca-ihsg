@@ -59,10 +59,8 @@ export async function POST(req: NextRequest) {
       ? body.input.endDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })
       : String(body.input.endDate);
 
-  const winnerLabel =
-    body.strategies.find((s) => s.strategy === body.winner)?.label ?? body.winner;
-  const loserLabel =
-    body.strategies.find((s) => s.strategy === body.loser)?.label ?? body.loser;
+  const winnerLabel = body.strategies.find((s) => s.strategy === body.winner)?.label ?? body.winner;
+  const loserLabel = body.strategies.find((s) => s.strategy === body.loser)?.label ?? body.loser;
 
   const userMessage = `Hasil simulasi ${formatRp(body.input.monthlyAmount)}/bulan, periode ${startLabel} sampai ${endLabel}:
 
@@ -108,10 +106,7 @@ Output JSON analisis sesuai instruksi.`;
   } catch (err) {
     const status = (err as { status?: number }).status;
     if (status === 429) {
-      return NextResponse.json(
-        { error: 'Quota AI tercapai. Coba 1 menit lagi.' },
-        { status: 429 }
-      );
+      return NextResponse.json({ error: 'Quota AI tercapai. Coba 1 menit lagi.' }, { status: 429 });
     }
     console.error('Groq compare-analyze error:', err);
     return NextResponse.json(

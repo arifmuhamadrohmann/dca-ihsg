@@ -39,11 +39,7 @@ export type CrisisMarker = {
 
 // ─── Phase B types ────────────────────────────────────────────────────────────
 
-export type Strategy =
-  | 'dca-ihsg'
-  | 'lumpsum-ihsg'
-  | 'dca-deposito'
-  | 'lumpsum-deposito';
+export type Strategy = 'dca-ihsg' | 'lumpsum-ihsg' | 'dca-deposito' | 'lumpsum-deposito';
 
 export type StrategyStep = {
   date: string;

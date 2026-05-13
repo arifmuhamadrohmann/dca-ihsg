@@ -82,9 +82,7 @@ export default function ComparisonChart({ result }: ComparisonChartProps) {
     (c) => c.startDate >= firstDate && c.startDate <= lastDate
   );
   const ticks = pickTicks(refStrategy.steps.map((s) => s.date));
-  const maxVal = Math.max(
-    ...result.strategies.flatMap((s) => s.steps.map((step) => step.value))
-  );
+  const maxVal = Math.max(...result.strategies.flatMap((s) => s.steps.map((step) => step.value)));
   const selectedStrategies = result.strategies.map((s) => s.strategy);
 
   return (
@@ -178,9 +176,14 @@ export default function ComparisonChart({ result }: ComparisonChartProps) {
           <span className="flex items-center gap-1.5 text-[10px] text-gray-500">
             <svg width="10" height="14" viewBox="0 0 2 14" aria-hidden="true">
               <line
-                x1="1" y1="0" x2="1" y2="14"
-                stroke="#E24B4A" strokeWidth="1.5"
-                strokeDasharray="3 2" strokeOpacity="0.7"
+                x1="1"
+                y1="0"
+                x2="1"
+                y2="14"
+                stroke="#E24B4A"
+                strokeWidth="1.5"
+                strokeDasharray="3 2"
+                strokeOpacity="0.7"
               />
             </svg>
             Krisis ({visibleCrises.map((c) => `'${String(c.year).slice(2)}`).join(', ')})

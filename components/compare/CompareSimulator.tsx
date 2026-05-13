@@ -77,10 +77,13 @@ export default function CompareSimulator({
           {result.strategies.length >= 2 && <RankingRow result={result} />}
           <div id="compare-export-card" className="bg-card">
             <ComparisonChart result={result} />
-            <ComparisonGrid result={result} />
           </div>
-          <CompareActionsBar />
-          <AIAnalysisPanel result={result} />
+          {/* Unified card: strategy cards + actions + AI */}
+          <div className="mx-6 mb-5 bg-canvas border border-black/[0.06] rounded-[24px] overflow-hidden">
+            <ComparisonGrid result={result} />
+            <CompareActionsBar />
+            <AIAnalysisPanel result={result} standalone={false} />
+          </div>
         </>
       ) : (
         <div className="mx-4 mb-4 p-4 rounded-xl bg-soft text-center text-[13px] text-gray-400">

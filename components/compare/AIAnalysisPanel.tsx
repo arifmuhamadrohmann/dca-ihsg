@@ -6,6 +6,8 @@ import { getCachedAnalysis, setCachedAnalysis } from '@/lib/ai-cache';
 
 type AIAnalysisPanelProps = {
   result: ComparisonResult;
+  /** When false, renders without outer card — used when nested inside a card wrapper */
+  standalone?: boolean;
 };
 
 const SECTIONS: {
@@ -21,7 +23,7 @@ const SECTIONS: {
   { key: 'importantNotes', title: 'Catatan penting' },
 ];
 
-export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
+export default function AIAnalysisPanel({ result, standalone = true }: AIAnalysisPanelProps) {
   const [analysis, setAnalysis] = useState<AIAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,8 +61,12 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
     void fetchAnalysis();
   }
 
+  const outerClass = standalone
+    ? 'mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]'
+    : 'p-5 border-t border-black/[0.06]';
+
   return (
-    <div className="mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]">
+    <div className={outerClass}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-[13px] font-semibold text-[#0e0f0c]">Analisis AI</span>

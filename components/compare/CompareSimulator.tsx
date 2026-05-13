@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { runComparison } from '@/lib/compare';
 import type { MonthlyPrice, BIRate, Strategy } from '@/lib/types';
 import InputPanel from '@/components/InputPanel';
@@ -58,7 +58,7 @@ export default function CompareSimulator({
       <div className="px-4 pt-4 pb-2">
         <h1 className="text-[15px] font-medium text-gray-900">DCA Comparison Lab</h1>
         <p className="text-[11px] text-gray-400 mt-0.5">
-          Bandingkan 4 strategi investasi historis IHSG vs Deposito
+          Bandingkan DCA vs Lump sum investasi historis IHSG
         </p>
       </div>
       <InputPanel
@@ -80,6 +80,32 @@ export default function CompareSimulator({
           </div>
           {/* Unified card: strategy cards + actions + AI */}
           <div className="mx-6 mb-5 bg-canvas border border-black/[0.06] rounded-[24px] overflow-hidden">
+            {/* Summary stats */}
+            {(() => {
+              const ref = result.strategies[0];
+              if (!ref) return null;
+              const months = ref.steps.length;
+              const firstDate = parseISO(ref.steps[0]!.date);
+              const lastDate = parseISO(ref.steps[ref.steps.length - 1]!.date);
+              const periodLabel = `${format(firstDate, 'MMM yyyy')} – ${format(lastDate, 'MMM yyyy')}`;
+              const totalInvested = ref.totalInvested.toLocaleString('id-ID', {
+                style: 'currency', currency: 'IDR', notation: 'compact', maximumFractionDigits: 1,
+              });
+              return (
+                <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
+                  {[
+                    { label: 'Bulan investasi', value: `${months} bln` },
+                    { label: 'Periode', value: periodLabel },
+                    { label: 'Total setoran', value: totalInvested },
+                  ].map(({ label, value }) => (
+                    <div key={label}>
+                      <p className="text-[10px] font-semibold text-[#868685] mb-0.5">{label}</p>
+                      <p className="text-[11px] font-semibold text-[#0e0f0c] leading-tight">{value}</p>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
             <ComparisonGrid result={result} />
             <CompareActionsBar />
             <AIAnalysisPanel result={result} standalone={false} />

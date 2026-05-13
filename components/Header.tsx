@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const NAV_LINKS = [
   { href: '/', label: 'Simulator' },
-  { href: '/compare', label: 'Compare Lab' },
+  { href: '/compare', label: 'Compare' },
 ];
 
 export default function Header() {

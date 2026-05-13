@@ -14,12 +14,9 @@ export default function Header() {
   return (
     <header className="px-6 py-4 bg-canvas border-b border-black/[0.06]">
       <div className="flex items-center justify-between">
-        {/* Left spacer — mirrors right icons width */}
-        <div className="w-16" />
-
-        {/* Center: title + nav */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="text-[20px] font-bold text-ink tracking-tight">DCA Time Machine</div>
+        {/* Left: title + nav */}
+        <div className="flex flex-col gap-2">
+          <div className="text-[18px] font-bold text-ink tracking-tight">DCA Time Machine</div>
           <nav className="flex items-center gap-1">
             {NAV_LINKS.map(({ href, label }) => {
               const isActive = pathname === href;
@@ -41,7 +38,7 @@ export default function Header() {
         </div>
 
         {/* Right: icon links */}
-        <div className="flex gap-3 items-center w-16 justify-end">
+        <div className="flex gap-3 items-center justify-end">
           <Link
             href="/about"
             aria-label="About"

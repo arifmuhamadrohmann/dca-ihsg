@@ -17,7 +17,7 @@ export default function ComparePage() {
 
   return (
     <div className="bg-page min-h-screen">
-      <div className="max-w-[720px] mx-auto bg-card min-h-screen shadow-sm">
+      <div className="max-w-[480px] mx-auto bg-card min-h-screen shadow-sm">
         <Header />
         <CompareSimulator ihsgPrices={ihsgPrices} biRates={biRates} lastUpdated={lastUpdated} />
       </div>

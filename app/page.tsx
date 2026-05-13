@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <div className="bg-page min-h-screen">
-      <div className="max-w-[720px] mx-auto bg-card min-h-screen shadow-sm">
+      <div className="max-w-[480px] mx-auto bg-card min-h-screen shadow-sm">
         <Header />
         <DCASimulator prices={prices} lastUpdated={lastUpdated} />
       </div>

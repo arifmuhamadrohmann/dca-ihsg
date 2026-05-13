@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <header className="px-6 py-4 bg-[#0e0f0c]">
       <div className="text-[18px] font-bold text-[#e8ebe6] tracking-tight mb-2">
-        DCA Time Machine
+        Dollar Cost Average Apps
       </div>
       <nav className="flex items-center gap-1">
         {NAV_LINKS.map(({ href, label }) => {

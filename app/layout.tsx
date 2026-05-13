@@ -6,17 +6,17 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'DCA Time Machine IHSG',
+  title: 'Dollar Cost Average Apps',
   description:
     'Simulator Dollar Cost Averaging untuk IHSG. Kalau kamu DCA Rp X per bulan sejak tanggal Y, berapa hasilnya hari ini?',
   openGraph: {
-    title: 'DCA Time Machine IHSG',
+    title: 'Dollar Cost Average Apps',
     description: 'Simulasi DCA historis untuk IHSG (^JKSE)',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DCA Time Machine IHSG',
+    title: 'Dollar Cost Average Apps',
     description: 'Simulasi DCA historis untuk IHSG (^JKSE)',
   },
 };

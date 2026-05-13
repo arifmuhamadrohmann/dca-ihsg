@@ -28,12 +28,7 @@ export const STRATEGY_CONFIG: Record<
   },
 };
 
-export const ALL_STRATEGIES: Strategy[] = [
-  'dca-ihsg',
-  'lumpsum-ihsg',
-  'dca-deposito',
-  'lumpsum-deposito',
-];
+export const ALL_STRATEGIES: Strategy[] = ['dca-ihsg', 'lumpsum-ihsg'];
 
 type StrategyPickerProps = {
   selected: Strategy[];

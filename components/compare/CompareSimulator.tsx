@@ -71,55 +71,62 @@ export default function CompareSimulator({
         onStartDateChange={setStartDate}
         onEndDateChange={setEndDate}
       />
-      <StrategyPicker selected={selectedStrategies} onChange={setSelectedStrategies} />
       {result && result.strategies.length > 0 ? (
         <>
-          {result.strategies.length >= 2 && <RankingRow result={result} />}
-          <div id="compare-export-card" className="bg-card">
+          {/* ─── Export card: seluruh konten yang masuk ke PNG ─── */}
+          <div id="compare-export-card" className="bg-canvas">
+            <StrategyPicker selected={selectedStrategies} onChange={setSelectedStrategies} />
+            {result.strategies.length >= 2 && <RankingRow result={result} />}
             <ComparisonChart result={result} />
+            {/* Stats + strategy cards */}
+            <div className="mx-6 mb-4 bg-canvas border border-black/[0.06] rounded-[12px] overflow-hidden">
+              {(() => {
+                const ref = result.strategies[0];
+                if (!ref) return null;
+                const months = ref.steps.length;
+                const firstDate = parseISO(ref.steps[0]!.date);
+                const lastDate = parseISO(ref.steps[ref.steps.length - 1]!.date);
+                const periodLabel = `${format(firstDate, 'MMM yyyy')} – ${format(lastDate, 'MMM yyyy')}`;
+                const totalInvested = ref.totalInvested.toLocaleString('id-ID', {
+                  style: 'currency',
+                  currency: 'IDR',
+                  notation: 'compact',
+                  maximumFractionDigits: 1,
+                });
+                return (
+                  <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
+                    {[
+                      { label: 'Bulan investasi', value: `${months} bln` },
+                      { label: 'Periode', value: periodLabel },
+                      { label: 'Total setoran', value: totalInvested },
+                    ].map(({ label, value }) => (
+                      <div key={label}>
+                        <p className="text-[10px] font-semibold text-[#868685] mb-0.5">{label}</p>
+                        <p className="text-[11px] font-semibold text-[#0e0f0c] leading-tight">
+                          {value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+              <ComparisonGrid result={result} />
+            </div>
           </div>
-          {/* Unified card: strategy cards + actions + AI */}
+
+          {/* ─── Di luar export: actions + AI ─── */}
           <div className="mx-6 mb-5 bg-canvas border border-black/[0.06] rounded-[12px] overflow-hidden">
-            {/* Summary stats */}
-            {(() => {
-              const ref = result.strategies[0];
-              if (!ref) return null;
-              const months = ref.steps.length;
-              const firstDate = parseISO(ref.steps[0]!.date);
-              const lastDate = parseISO(ref.steps[ref.steps.length - 1]!.date);
-              const periodLabel = `${format(firstDate, 'MMM yyyy')} – ${format(lastDate, 'MMM yyyy')}`;
-              const totalInvested = ref.totalInvested.toLocaleString('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                notation: 'compact',
-                maximumFractionDigits: 1,
-              });
-              return (
-                <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
-                  {[
-                    { label: 'Bulan investasi', value: `${months} bln` },
-                    { label: 'Periode', value: periodLabel },
-                    { label: 'Total setoran', value: totalInvested },
-                  ].map(({ label, value }) => (
-                    <div key={label}>
-                      <p className="text-[10px] font-semibold text-[#868685] mb-0.5">{label}</p>
-                      <p className="text-[11px] font-semibold text-[#0e0f0c] leading-tight">
-                        {value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
-            <ComparisonGrid result={result} />
             <CompareActionsBar />
             <AIAnalysisPanel result={result} standalone={false} />
           </div>
         </>
       ) : (
-        <div className="mx-4 mb-4 p-4 rounded-xl bg-soft text-center text-[13px] text-gray-400">
-          Pilih minimal 1 strategi untuk dibandingkan.
-        </div>
+        <>
+          <StrategyPicker selected={selectedStrategies} onChange={setSelectedStrategies} />
+          <div className="mx-4 mb-4 p-4 rounded-xl bg-soft text-center text-[13px] text-gray-400">
+            Pilih minimal 1 strategi untuk dibandingkan.
+          </div>
+        </>
       )}
       <CompareMethodologyAccordion />
       <Disclaimer />

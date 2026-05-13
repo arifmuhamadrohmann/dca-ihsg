@@ -13,7 +13,14 @@ export default function MethodologyAccordion() {
         className="w-full flex justify-between items-center px-4 py-3 bg-[#e8ebe6] text-[13px] text-[#454745] hover:bg-[#d4d8d1] transition-colors"
       >
         <span>Metodologi &amp; asumsi</span>
-        <span className="text-[#868685]" style={{ display: 'inline-block', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+        <span
+          className="text-[#868685]"
+          style={{
+            display: 'inline-block',
+            transform: open ? 'rotate(180deg)' : 'none',
+            transition: 'transform 0.2s',
+          }}
+        >
           ▾
         </span>
       </button>
@@ -21,7 +28,10 @@ export default function MethodologyAccordion() {
         <div className="px-4 py-4 bg-canvas text-[12px] text-[#454745] leading-relaxed space-y-3">
           <div>
             <p className="font-semibold text-[#0e0f0c] mb-1">Sumber data</p>
-            <p>Harga penutupan bulanan IHSG (<code>^JKSE</code>) dari Yahoo Finance via yfinance. Diperbarui otomatis setiap Senin.</p>
+            <p>
+              Harga penutupan bulanan IHSG (<code>^JKSE</code>) dari Yahoo Finance via yfinance.
+              Diperbarui otomatis setiap Senin.
+            </p>
           </div>
           <div>
             <p className="font-semibold text-[#0e0f0c] mb-1">Asumsi</p>
@@ -41,7 +51,10 @@ export default function MethodologyAccordion() {
           </div>
           <div>
             <p className="font-semibold text-[#0e0f0c] mb-1">XIRR</p>
-            <p>Internal Rate of Return tahunan — memperhitungkan timing setiap setoran. Dihitung dengan metode Newton-Raphson.</p>
+            <p>
+              Internal Rate of Return tahunan — memperhitungkan timing setiap setoran. Dihitung
+              dengan metode Newton-Raphson.
+            </p>
           </div>
         </div>
       )}

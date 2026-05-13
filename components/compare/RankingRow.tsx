@@ -15,9 +15,7 @@ export default function RankingRow({ result }: RankingRowProps) {
 
   return (
     <div className="mx-6 mb-4 px-4 py-3 bg-[#e2f6d5] rounded-[16px] text-[12px]">
-      <span className="font-semibold text-[#054d28]">
-        Pemenang: {winner.label}
-      </span>
+      <span className="font-semibold text-[#054d28]">Pemenang: {winner.label}</span>
       {' · '}
       <span className="text-[#0e0f0c]">
         +{winner.returnPct.toFixed(0)}% · {formatRupiah(winner.finalValue, { compact: true })}

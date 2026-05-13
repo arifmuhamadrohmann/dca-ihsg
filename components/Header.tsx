@@ -6,17 +6,27 @@ export default function Header() {
       <div>
         <div className="text-[15px] font-semibold text-ink tracking-tight">DCA Time Machine</div>
         <div className="flex items-center gap-2 mt-0.5">
-          <Link href="/" className="text-[12px] font-semibold text-[#868685] hover:text-ink transition-colors">
+          <Link
+            href="/"
+            className="text-[12px] font-semibold text-[#868685] hover:text-ink transition-colors"
+          >
             Simulator
           </Link>
           <span className="text-[12px] text-[#e8ebe6]">·</span>
-          <Link href="/compare" className="text-[12px] font-semibold text-[#868685] hover:text-ink transition-colors">
+          <Link
+            href="/compare"
+            className="text-[12px] font-semibold text-[#868685] hover:text-ink transition-colors"
+          >
             Compare Lab
           </Link>
         </div>
       </div>
       <div className="flex gap-3 items-center">
-        <Link href="/about" aria-label="About" className="text-[13px] font-semibold text-[#868685] hover:text-ink transition-colors">
+        <Link
+          href="/about"
+          aria-label="About"
+          className="text-[13px] font-semibold text-[#868685] hover:text-ink transition-colors"
+        >
           i
         </Link>
         <a

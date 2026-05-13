@@ -53,7 +53,9 @@ export default function StrategyPicker({ selected, onChange }: StrategyPickerPro
 
   return (
     <div className="mx-6 mb-5">
-      <p className="text-[11px] font-semibold text-[#868685] uppercase tracking-wide mb-2">Bandingkan strategi</p>
+      <p className="text-[11px] font-semibold text-[#868685] uppercase tracking-wide mb-2">
+        Bandingkan strategi
+      </p>
       <div className="flex flex-wrap gap-1.5">
         {ALL_STRATEGIES.map((strategy) => {
           const config = STRATEGY_CONFIG[strategy];

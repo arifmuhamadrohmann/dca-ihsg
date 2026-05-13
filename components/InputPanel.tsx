@@ -18,14 +18,30 @@ type InputPanelProps = {
 };
 
 const MONTHS = [
-  'Januari','Februari','Maret','April','Mei','Juni',
-  'Juli','Agustus','September','Oktober','November','Desember',
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember',
 ];
 
 function MonthYearPicker({
-  value, min, max, onChange,
+  value,
+  min,
+  max,
+  onChange,
 }: {
-  value: Date; min: Date; max: Date; onChange: (date: Date) => void;
+  value: Date;
+  min: Date;
+  max: Date;
+  onChange: (date: Date) => void;
 }) {
   const minYear = min.getFullYear();
   const maxYear = max.getFullYear();
@@ -43,43 +59,64 @@ function MonthYearPicker({
         className="flex-1 px-3 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[13px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60 focus:border-[#9fe870]"
       >
         {MONTHS.map((label, i) => (
-          <option key={i} value={i} disabled={i < minMonth || i > maxMonth}>{label}</option>
+          <option key={i} value={i} disabled={i < minMonth || i > maxMonth}>
+            {label}
+          </option>
         ))}
       </select>
       <select
         value={curYear}
         onChange={(e) => {
           const y = parseInt(e.target.value, 10);
-          const clampedMonth = Math.min(Math.max(curMonth, y === minYear ? min.getMonth() : 0), y === maxYear ? max.getMonth() : 11);
+          const clampedMonth = Math.min(
+            Math.max(curMonth, y === minYear ? min.getMonth() : 0),
+            y === maxYear ? max.getMonth() : 11
+          );
           onChange(new Date(y, clampedMonth, 1));
         }}
         className="w-[76px] px-2 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[13px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60"
       >
-        {years.map((y) => <option key={y} value={y}>{y}</option>)}
+        {years.map((y) => (
+          <option key={y} value={y}>
+            {y}
+          </option>
+        ))}
       </select>
     </div>
   );
 }
 
 export default function InputPanel({
-  monthlyAmount, startDate, endDate, minDate, maxDate,
-  onMonthlyAmountChange, onStartDateChange, onEndDateChange,
+  monthlyAmount,
+  startDate,
+  endDate,
+  minDate,
+  maxDate,
+  onMonthlyAmountChange,
+  onStartDateChange,
+  onEndDateChange,
 }: InputPanelProps) {
   const isEndToday = endDate === null;
   const [displayValue, setDisplayValue] = useState(formatRibu(monthlyAmount));
 
-  useEffect(() => { setDisplayValue(formatRibu(monthlyAmount)); }, [monthlyAmount]);
+  useEffect(() => {
+    setDisplayValue(formatRibu(monthlyAmount));
+  }, [monthlyAmount]);
 
   return (
     <section className="px-6 py-5 bg-canvas border-b border-black/[0.06]">
-      <p className="text-[12px] font-semibold text-[#868685] uppercase tracking-wide mb-4">Simulasikan investasimu</p>
+      <p className="text-[12px] font-semibold text-[#868685] uppercase tracking-wide mb-4">
+        Simulasikan investasimu
+      </p>
 
       <div className="mb-4">
         <label htmlFor="nominal" className="block text-[12px] font-semibold text-[#454745] mb-1.5">
           Nominal per bulan
         </label>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[14px] font-semibold text-[#0e0f0c] pointer-events-none">Rp</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[14px] font-semibold text-[#0e0f0c] pointer-events-none">
+            Rp
+          </span>
           <input
             id="nominal"
             type="text"
@@ -106,7 +143,12 @@ export default function InputPanel({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-[12px] font-semibold text-[#454745] mb-1.5">Mulai</label>
-          <MonthYearPicker value={startDate} min={minDate} max={isEndToday ? maxDate : endDate} onChange={onStartDateChange} />
+          <MonthYearPicker
+            value={startDate}
+            min={minDate}
+            max={isEndToday ? maxDate : endDate}
+            onChange={onStartDateChange}
+          />
         </div>
         <div>
           <label className="block text-[12px] font-semibold text-[#454745] mb-1.5">Sampai</label>
@@ -119,7 +161,12 @@ export default function InputPanel({
             </button>
           ) : (
             <div className="space-y-1.5">
-              <MonthYearPicker value={endDate} min={startDate} max={maxDate} onChange={onEndDateChange} />
+              <MonthYearPicker
+                value={endDate}
+                min={startDate}
+                max={maxDate}
+                onChange={onEndDateChange}
+              />
               <button
                 onClick={() => onEndDateChange(null)}
                 className="w-full py-1.5 rounded-[9999px] text-[12px] font-semibold text-[#054d28] bg-[#e2f6d5] hover:bg-[#9fe870]/40 transition-colors"

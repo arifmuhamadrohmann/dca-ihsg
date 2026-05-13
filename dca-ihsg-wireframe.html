@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCA Time Machine IHSG — Wireframe</title>
+<style>
+  :root {
+    --bg-page: #FAFAF7;
+    --bg-card: #FFFFFF;
+    --bg-soft: #F1EFE8;
+    --bg-success: #EAF3DE;
+    --text-primary: #1A1A19;
+    --text-secondary: #5F5E5A;
+    --text-tertiary: #888780;
+    --text-success-dark: #173404;
+    --text-success: #3B6D11;
+    --text-danger: #A32D2D;
+    --border-light: rgba(0,0,0,0.08);
+    --border-mid: rgba(0,0,0,0.15);
+    --accent-success: #1D9E75;
+    --accent-success-light: #C0DD97;
+    --accent-danger: #E24B4A;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding: 24px;
+  }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  h2 { font-size: 18px; font-weight: 500; margin-bottom: 12px; margin-top: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .subtitle { color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; }
+  .columns { display: grid; grid-template-columns: 380px 1fr; gap: 32px; }
+  .phone {
+    width: 360px;
+    background: var(--bg-card);
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .header {
+    padding: 16px 16px 12px;
+    border-bottom: 0.5px solid var(--border-light);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .title { font-size: 15px; font-weight: 500; }
+  .ticker { font-size: 11px; color: var(--text-tertiary); }
+  .icons { display: flex; gap: 12px; color: var(--text-secondary); font-size: 18px; }
+  .section { padding: 16px; }
+  .section-label { font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; }
+  .field-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+  .field {
+    padding: 10px 12px; background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+  }
+  .field.nominal { font-size: 16px; font-weight: 500; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .field-mb { margin-bottom: 12px; }
+  .summary {
+    margin: 0 16px 16px;
+    padding: 14px;
+    background: var(--bg-success);
+    border-radius: var(--radius-lg);
+  }
+  .summary-label { font-size: 11px; color: var(--text-success); margin-bottom: 2px; }
+  .summary-value { font-size: 24px; font-weight: 500; color: var(--text-success-dark); }
+  .summary-delta { font-size: 13px; color: var(--text-success); margin-top: 2px; }
+  .summary-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    margin-top: 12px; padding-top: 12px;
+    border-top: 0.5px solid var(--accent-success-light);
+  }
+  .stat-label { font-size: 10px; color: var(--text-success); }
+  .stat-value { font-size: 13px; font-weight: 500; color: var(--text-success-dark); }
+  .chart-section { margin: 0 16px 16px; }
+  .chart-header {
+    font-size: 12px; color: var(--text-secondary);
+    margin-bottom: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .chart-svg { width: 100%; height: auto; background: var(--bg-soft); border-radius: var(--radius-md); }
+  .legend { display: flex; gap: 16px; margin-top: 8px; font-size: 11px; color: var(--text-secondary); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-line-solid { width: 14px; height: 2px; background: var(--accent-success); display: inline-block; }
+  .legend-line-dashed { width: 14px; border-top: 1.5px dashed var(--text-tertiary); display: inline-block; }
+  .actions {
+    margin: 0 16px 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .btn {
+    padding: 11px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    border: none; cursor: pointer; font-family: inherit;
+  }
+  .btn-secondary { background: var(--bg-card); border: 0.5px solid var(--border-mid); color: var(--text-primary); }
+  .btn-primary { background: var(--text-primary); color: var(--bg-card); }
+  .accordion {
+    margin: 0 16px 16px;
+    padding: 12px 14px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-md);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px;
+  }
+  .disclaimer {
+    margin: 0 16px 16px;
+    padding: 10px 12px;
+    border: 0.5px dashed var(--border-mid);
+    border-radius: var(--radius-md);
+    font-size: 10px; color: var(--text-tertiary); line-height: 1.5;
+  }
+  .footer {
+    padding: 10px 16px;
+    border-top: 0.5px solid var(--border-light);
+    font-size: 10px; color: var(--text-tertiary);
+    text-align: center;
+  }
+  .annotations {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  .annotations h3 {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-primary);
+    margin: 16px 0 6px;
+  }
+  .annotations h3:first-child { margin-top: 0; }
+  .annotations ul { list-style: none; padding-left: 0; }
+  .annotations li {
+    padding: 6px 0 6px 24px;
+    border-bottom: 0.5px solid var(--border-light);
+    position: relative;
+  }
+  .annotations li:last-child { border-bottom: none; }
+  .annotations li::before {
+    content: counter(item);
+    counter-increment: item;
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    color: var(--text-primary);
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .annotations ul { counter-reset: item; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-soft);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>DCA Time Machine IHSG — Wireframe</h1>
+  <p class="subtitle">Mobile-first (360px). Tampilan default saat user pertama buka — pre-filled DCA Rp 1jt/bulan dari Jan 2010.</p>
+
+  <div class="columns">
+
+    <div class="phone">
+
+      <div class="header">
+        <div>
+          <div class="title">DCA Time Machine</div>
+          <div class="ticker">IHSG · ^JKSE</div>
+        </div>
+        <div class="icons">
+          <span>i</span>
+          <span>{ }</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label">Simulasikan DCA-mu</div>
+
+        <div class="field-mb">
+          <div class="field-label">Nominal per bulan</div>
+          <div class="field nominal">Rp 1.000.000</div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="field-label">Mulai</div>
+            <div class="field">Jan 2010</div>
+          </div>
+          <div>
+            <div class="field-label">Sampai</div>
+            <div class="field">Hari ini</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">Nilai portofolio sekarang</div>
+        <div class="summary-value">Rp 412,5 juta</div>
+        <div class="summary-delta">+ Rp 216,5 juta (+110%)</div>
+
+        <div class="summary-grid">
+          <div>
+            <div class="stat-label">Total setoran</div>
+            <div class="stat-value">Rp 196 jt</div>
+          </div>
+          <div>
+            <div class="stat-label">XIRR</div>
+            <div class="stat-value">9,2% / tahun</div>
+          </div>
+          <div>
+            <div class="stat-label">Bulan investasi</div>
+            <div class="stat-value">196 bulan</div>
+          </div>
+          <div>
+            <div class="stat-label">Periode</div>
+            <div class="stat-value">16 thn 4 bln</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="chart-header">
+          <span>Pertumbuhan portofolio</span>
+          <span style="font-size: 10px; color: var(--text-tertiary);">Nilai vs Setoran</span>
+        </div>
+        <svg viewBox="0 0 328 180" class="chart-svg">
+          <line x1="20" y1="160" x2="320" y2="160" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+          <line x1="20" y1="120" x2="320" y2="120" stroke="rgba(0,0,0,0.08)" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <line x1="20" y1="80" x2="320" y2="80" stroke="rgba(0,0,0,0.08)" stroke-width="0.5" stroke-dasharray="2,2"/>
+          <line x1="20" y1="40" x2="320" y2="40" stroke="rgba(0,0,0,0.08)" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+          <line x1="105" y1="30" x2="105" y2="160" stroke="#E24B4A" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.6"/>
+          <text x="107" y="36" font-size="8" fill="#A32D2D">'13</text>
+
+          <line x1="135" y1="30" x2="135" y2="160" stroke="#E24B4A" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.6"/>
+          <text x="137" y="36" font-size="8" fill="#A32D2D">'15</text>
+
+          <line x1="220" y1="30" x2="220" y2="160" stroke="#E24B4A" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.6"/>
+          <text x="222" y="36" font-size="8" fill="#A32D2D">'20</text>
+
+          <polyline points="20,150 50,145 80,138 105,140 130,135 160,128 190,118 220,140 250,105 280,80 310,55"
+            fill="none" stroke="#1D9E75" stroke-width="2" stroke-linejoin="round"/>
+
+          <polyline points="20,158 50,154 80,148 105,142 130,136 160,128 190,118 220,108 250,98 280,86 310,75"
+            fill="none" stroke="#888780" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+          <circle cx="310" cy="55" r="3" fill="#1D9E75"/>
+
+          <text x="20" y="172" font-size="9" fill="#888780">2010</text>
+          <text x="155" y="172" font-size="9" fill="#888780">2018</text>
+          <text x="298" y="172" font-size="9" fill="#888780">2026</text>
+        </svg>
+        <div class="legend">
+          <span class="legend-item">
+            <span class="legend-line-solid"></span> Nilai portofolio
+          </span>
+          <span class="legend-item">
+            <span class="legend-line-dashed"></span> Total setoran
+          </span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary">Simpan PNG</button>
+        <button class="btn btn-primary">Bagikan</button>
+      </div>
+
+      <div class="accordion">
+        <span>Metodologi & asumsi</span>
+        <span style="color: var(--text-secondary);">v</span>
+      </div>
+
+      <div class="disclaimer">
+        Simulasi historis menggunakan price index IHSG. Dividen, biaya transaksi, dan pajak tidak diperhitungkan. Bukan rekomendasi investasi.
+      </div>
+
+      <div class="footer">Data: Yahoo Finance · Update mingguan</div>
+
+    </div>
+
+    <div class="annotations">
+      <h3>Komponen breakdown</h3>
+      <ul>
+        <li><strong>Header</strong> <span class="badge">Header.tsx</span><br>Title + ticker subtitle + ikon Info & GitHub (link ke repo).</li>
+        <li><strong>Input panel</strong> <span class="badge">InputPanel.tsx</span><br>Nominal (currency input, format Rp ribuan), Start date (MonthYearPicker), End date (default "Hari ini" toggle).</li>
+        <li><strong>Summary card</strong> <span class="badge">SummaryCard.tsx</span><br>Hero metric (Nilai portofolio) + delta absolut & % + grid 2x2 stats (Total setoran, XIRR, Bulan investasi, Periode). Warna hijau saat positif, merah saat negatif. Card ini target screenshot.</li>
+        <li><strong>Chart</strong> <span class="badge">PortfolioChart.tsx</span><br>Line chart 2 series (Recharts). Series solid hijau = nilai portofolio, dashed gray = total setoran kumulatif. Crisis markers sebagai vertical reference lines (1998, 2008, 2013, 2015, 2020).</li>
+        <li><strong>Actions</strong> <span class="badge">ActionsBar.tsx</span><br>Simpan PNG (html-to-image, capture summary+chart) + Bagikan (Web Share API, fallback copy link).</li>
+        <li><strong>Methodology accordion</strong> <span class="badge">MethodologyAccordion.tsx</span><br>Collapsed default. Saat expand: data source, asumsi, formula, batasan.</li>
+        <li><strong>Disclaimer</strong> <span class="badge">Disclaimer.tsx</span><br>Always visible. "Bukan rekomendasi investasi".</li>
+        <li><strong>Footer</strong><br>Data freshness label + tanggal update terakhir.</li>
+      </ul>
+
+      <h3>Behavior notes</h3>
+      <ul>
+        <li>Saat user adjust input apapun, summary + chart update real-time (debounced 200ms).</li>
+        <li>Loading state: skeleton di summary card & chart saat hitung pertama atau saat data fetch.</li>
+        <li>Tap "Hari ini" toggle di End date → kembali ke tanggal terakhir tersedia, abu-abu kalau aktif.</li>
+        <li>Chart responsive — di desktop bisa lebih lebar tapi tinggi tetap proporsional.</li>
+        <li>Tap PNG → generate image 1080x1080 berisi summary card + chart + branding kecil.</li>
+        <li>Share button → kalau Web Share API tidak tersedia, fallback ke copy URL ke clipboard + toast.</li>
+      </ul>
+
+      <h3>Desktop adaptation</h3>
+      <ul>
+        <li>Container max-width 720px, center aligned. Tidak butuh layout dua kolom — single column tetap optimal untuk konteks "telling a story".</li>
+        <li>Chart height bertambah jadi ~280px untuk readability.</li>
+        <li>Input panel bisa horizontal (3 fields satu baris) di breakpoint &gt;640px.</li>
+      </ul>
+
+      <h3>Empty / error states</h3>
+      <ul>
+        <li>Start date di masa depan → red helper text, summary blank dengan placeholder dash.</li>
+        <li>Data unavailable → fallback ke last commit JSON + banner "Data terakhir di-update [tanggal]".</li>
+        <li>Periode &lt; 1 bulan → warning "Periode terlalu pendek untuk simulasi DCA".</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -35,16 +35,12 @@ export default function CompareMethodologyAccordion() {
                 <strong>IHSG</strong> — harga penutupan bulanan (<code>^JKSE</code>) dari Yahoo
                 Finance via yfinance. Diperbarui otomatis setiap Senin.
               </li>
-              <li>
-                <strong>BI Rate</strong> — suku bunga acuan Bank Indonesia bulanan, digunakan
-                sebagai proxy imbal hasil deposito.
-              </li>
             </ul>
           </div>
 
           {/* 4 strategies */}
           <div>
-            <p className="font-semibold text-[#0e0f0c] mb-2">4 Strategi yang dibandingkan</p>
+            <p className="font-semibold text-[#0e0f0c] mb-2">2 Strategi yang dibandingkan</p>
             <div className="space-y-3">
               <div className="pl-3 border-l-2 border-[#1a6b55]">
                 <p className="font-semibold text-[#0e0f0c]">DCA IHSG</p>
@@ -61,21 +57,6 @@ export default function CompareMethodologyAccordion() {
                   awal periode pada harga IHSG bulan pertama. Tidak ada setoran bulanan berikutnya.
                 </p>
               </div>
-              <div className="pl-3 border-l-2 border-[#7a5c1e]">
-                <p className="font-semibold text-[#0e0f0c]">DCA Deposito</p>
-                <p>
-                  Nominal disetorkan tiap bulan ke deposito berbunga BI Rate. Bunga majemuk bulanan:{' '}
-                  <code>saldo = saldo × (1 + rate/12) + nominal</code>. BI Rate mengikuti data
-                  historis per bulan.
-                </p>
-              </div>
-              <div className="pl-3 border-l-2 border-[#6b2d7a]">
-                <p className="font-semibold text-[#0e0f0c]">Lump sum Deposito</p>
-                <p>
-                  Seluruh modal disetorkan sekaligus di awal, dikembangkan dengan bunga majemuk
-                  bulanan: <code>saldo = saldo × (1 + rate/12)</code>. Tidak ada setoran tambahan.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -86,7 +67,7 @@ export default function CompareMethodologyAccordion() {
               <li>Pembelian IHSG di harga penutupan akhir bulan</li>
               <li>Tidak ada biaya transaksi &amp; pajak</li>
               <li>Dividen tidak diperhitungkan (IHSG price index)</li>
-              <li>Bunga deposito = BI Rate (tidak termasuk pajak bunga 20%)</li>
+
               <li>Unit/saldo fraksional diperbolehkan</li>
             </ul>
           </div>

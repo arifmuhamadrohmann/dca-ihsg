@@ -38,13 +38,13 @@ export default function CompareActionsBar() {
       <button
         onClick={handleSavePNG}
         disabled={saving}
-        className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-[24px] text-[13px] font-semibold text-[#0e0f0c] bg-[#e8ebe6] hover:bg-[#d4d8d1] transition-colors disabled:opacity-50"
+        className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-[10px] text-[13px] font-semibold text-[#0e0f0c] bg-[#e8ebe6] hover:bg-[#d4d8d1] transition-colors disabled:opacity-50"
       >
         {saving ? 'Menyimpan...' : 'Simpan PNG'}
       </button>
       <button
         onClick={handleShare}
-        className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-[24px] text-[13px] font-semibold text-[#0e0f0c] bg-[#9fe870] hover:bg-[#cdffad] transition-colors"
+        className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-[10px] text-[13px] font-semibold text-[#0e0f0c] bg-[#9fe870] hover:bg-[#cdffad] transition-colors"
       >
         {shared ? '✓ Disalin' : 'Bagikan'}
       </button>

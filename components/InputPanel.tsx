@@ -169,7 +169,7 @@ export default function InputPanel({
               />
               <button
                 onClick={() => onEndDateChange(null)}
-                className="w-full py-1.5 rounded-[9999px] text-[12px] font-semibold text-[#054d28] bg-[#e2f6d5] hover:bg-[#9fe870]/40 transition-colors"
+                className="w-full py-1.5 rounded-[8px] text-[12px] font-semibold text-[#054d28] bg-[#e2f6d5] hover:bg-[#9fe870]/40 transition-colors"
               >
                 ← Sampai hari ini
               </button>

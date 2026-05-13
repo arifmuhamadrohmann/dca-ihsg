@@ -62,7 +62,7 @@ export default function AIAnalysisPanel({ result, standalone = true }: AIAnalysi
   }
 
   const outerClass = standalone
-    ? 'mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]'
+    ? 'mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[12px]'
     : 'p-5 border-t border-black/[0.06]';
 
   return (
@@ -88,7 +88,7 @@ export default function AIAnalysisPanel({ result, standalone = true }: AIAnalysi
       {!requested && !analysis && !loading && (
         <button
           onClick={handleRequest}
-          className="w-full py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
+          className="w-full py-3 rounded-[12px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
         >
           Hasilkan Analisis
         </button>

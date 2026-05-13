@@ -66,7 +66,7 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
   }
 
   return (
-    <div className="mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[24px]">
+    <div className="mx-6 mb-5 p-5 bg-canvas border border-black/[0.06] rounded-[12px]">
       {/* Header — always visible */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -90,7 +90,7 @@ export default function AIInsight({ result, startDate, endDate, visibleCrises }:
       {!narrative && !loading && !error && (
         <button
           onClick={fetchNarrative}
-          className="w-full py-3 rounded-[24px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
+          className="w-full py-3 rounded-[12px] bg-[#9fe870] text-[#0e0f0c] text-[13px] font-semibold hover:bg-[#cdffad] transition-colors"
         >
           Analisis hasil investasi ini
         </button>

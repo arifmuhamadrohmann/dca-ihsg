@@ -14,7 +14,7 @@ export default function RankingRow({ result }: RankingRowProps) {
   if (!winner || !loser) return null;
 
   return (
-    <div className="mx-6 mb-4 px-4 py-3 bg-[#e2f6d5] rounded-[16px] text-[12px]">
+    <div className="mx-6 mb-4 px-4 py-3 bg-[#e2f6d5] rounded-[10px] text-[12px]">
       <span className="font-semibold text-[#054d28]">Pemenang: {winner.label}</span>
       {' · '}
       <span className="text-[#0e0f0c]">

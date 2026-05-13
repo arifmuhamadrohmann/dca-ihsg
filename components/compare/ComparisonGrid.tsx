@@ -15,20 +15,22 @@ export default function ComparisonGrid({ result }: ComparisonGridProps) {
         return (
           <div
             key={s.strategy}
-            className="p-4 rounded-[20px] bg-[#f7f8f6] border border-black/[0.07] relative overflow-hidden"
-            style={{ borderLeftWidth: 3, borderLeftColor: config.color }}
+            className="rounded-[10px] bg-canvas border border-black/[0.08] relative overflow-hidden"
+            style={{ borderTopWidth: 3, borderTopColor: config.color }}
           >
             {isWinner && (
-              <span className="absolute top-2 right-2 text-[9px] px-2 py-0.5 rounded-full bg-[#9fe870] text-[#0e0f0c] font-semibold">
+              <span className="absolute top-2 right-2 text-[9px] px-1.5 py-0.5 rounded-[4px] bg-[#9fe870] text-[#0e0f0c] font-semibold">
                 terbaik
               </span>
             )}
-            <div className="text-[11px] text-[#868685] mb-0.5">{s.label}</div>
-            <div className="text-[16px] font-bold text-[#0e0f0c]">
-              {formatRupiah(s.finalValue, { compact: true })}
-            </div>
-            <div className="text-[11px] text-[#868685] mt-0.5">
-              +{s.returnPct.toFixed(1)}% · XIRR {s.xirr.toFixed(1)}%
+            <div className="px-3 pt-2 pb-3">
+              <div className="text-[11px] text-[#868685] mb-1">{s.label}</div>
+              <div className="text-[15px] font-bold text-[#0e0f0c]">
+                {formatRupiah(s.finalValue, { compact: true })}
+              </div>
+              <div className="text-[10px] text-[#868685] mt-1">
+                +{s.returnPct.toFixed(1)}% · XIRR {s.xirr.toFixed(1)}%
+              </div>
             </div>
           </div>
         );

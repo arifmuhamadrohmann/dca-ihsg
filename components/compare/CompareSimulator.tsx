@@ -79,7 +79,7 @@ export default function CompareSimulator({
             <ComparisonChart result={result} />
           </div>
           {/* Unified card: strategy cards + actions + AI */}
-          <div className="mx-6 mb-5 bg-canvas border border-black/[0.06] rounded-[24px] overflow-hidden">
+          <div className="mx-6 mb-5 bg-canvas border border-black/[0.06] rounded-[12px] overflow-hidden">
             {/* Summary stats */}
             {(() => {
               const ref = result.strategies[0];
@@ -89,7 +89,10 @@ export default function CompareSimulator({
               const lastDate = parseISO(ref.steps[ref.steps.length - 1]!.date);
               const periodLabel = `${format(firstDate, 'MMM yyyy')} – ${format(lastDate, 'MMM yyyy')}`;
               const totalInvested = ref.totalInvested.toLocaleString('id-ID', {
-                style: 'currency', currency: 'IDR', notation: 'compact', maximumFractionDigits: 1,
+                style: 'currency',
+                currency: 'IDR',
+                notation: 'compact',
+                maximumFractionDigits: 1,
               });
               return (
                 <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-3 border-b border-black/[0.06]">
@@ -100,7 +103,9 @@ export default function CompareSimulator({
                   ].map(({ label, value }) => (
                     <div key={label}>
                       <p className="text-[10px] font-semibold text-[#868685] mb-0.5">{label}</p>
-                      <p className="text-[11px] font-semibold text-[#0e0f0c] leading-tight">{value}</p>
+                      <p className="text-[11px] font-semibold text-[#0e0f0c] leading-tight">
+                        {value}
+                      </p>
                     </div>
                   ))}
                 </div>

@@ -64,9 +64,9 @@ export default function CompareMethodologyAccordion() {
               <div className="pl-3 border-l-2 border-[#7a5c1e]">
                 <p className="font-semibold text-[#0e0f0c]">DCA Deposito</p>
                 <p>
-                  Nominal disetorkan tiap bulan ke deposito berbunga BI Rate. Bunga majemuk
-                  bulanan: <code>saldo = saldo × (1 + rate/12) + nominal</code>. BI Rate mengikuti
-                  data historis per bulan.
+                  Nominal disetorkan tiap bulan ke deposito berbunga BI Rate. Bunga majemuk bulanan:{' '}
+                  <code>saldo = saldo × (1 + rate/12) + nominal</code>. BI Rate mengikuti data
+                  historis per bulan.
                 </p>
               </div>
               <div className="pl-3 border-l-2 border-[#6b2d7a]">

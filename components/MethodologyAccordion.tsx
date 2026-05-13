@@ -6,7 +6,7 @@ export default function MethodologyAccordion() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="mx-6 mb-5 rounded-[16px] overflow-hidden">
+    <div className="mx-6 mb-5 rounded-[10px] overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}

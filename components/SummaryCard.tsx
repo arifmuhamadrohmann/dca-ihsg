@@ -11,7 +11,7 @@ export default function SummaryCard({ result }: SummaryCardProps) {
   return (
     <div
       id="share-card"
-      className={`mx-6 mb-5 p-5 rounded-[24px] ${isPositive ? 'bg-[#e2f6d5]' : 'bg-[#320707]'}`}
+      className={`mx-6 mb-5 p-5 rounded-[12px] ${isPositive ? 'bg-[#e2f6d5]' : 'bg-[#320707]'}`}
     >
       <p
         className={`text-[12px] font-semibold mb-1 ${isPositive ? 'text-[#054d28]' : 'text-[#868685]'}`}

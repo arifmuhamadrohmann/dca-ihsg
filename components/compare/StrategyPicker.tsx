@@ -60,7 +60,7 @@ export default function StrategyPicker({ selected, onChange }: StrategyPickerPro
               key={strategy}
               onClick={() => toggle(strategy)}
               className={`
-                inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] border transition-colors
+                inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] border transition-colors
                 ${isSelected ? config.selectedClasses : 'bg-canvas text-[#454745] border-[#0e0f0c]/20 hover:border-[#0e0f0c]/40'}
               `}
             >

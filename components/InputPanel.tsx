@@ -52,11 +52,11 @@ function MonthYearPicker({
   const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
 
   return (
-    <div className="flex gap-1.5">
+    <div className="flex gap-1">
       <select
         value={curMonth}
         onChange={(e) => onChange(new Date(curYear, parseInt(e.target.value, 10), 1))}
-        className="flex-1 px-3 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[13px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60 focus:border-[#9fe870]"
+        className="min-w-0 flex-1 px-2 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[12px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60 focus:border-[#9fe870]"
       >
         {MONTHS.map((label, i) => (
           <option key={i} value={i} disabled={i < minMonth || i > maxMonth}>
@@ -74,7 +74,7 @@ function MonthYearPicker({
           );
           onChange(new Date(y, clampedMonth, 1));
         }}
-        className="w-[76px] px-2 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[13px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60"
+        className="w-[58px] shrink-0 px-1.5 py-2.5 bg-[#e8ebe6] rounded-[12px] text-[12px] font-medium text-[#0e0f0c] border border-transparent focus:outline-none focus:ring-2 focus:ring-[#9fe870]/60"
       >
         {years.map((y) => (
           <option key={y} value={y}>

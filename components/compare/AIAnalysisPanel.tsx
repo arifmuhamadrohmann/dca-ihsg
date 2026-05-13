@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import type { ComparisonResult, AIAnalysis } from '@/lib/types';
 import { getCachedAnalysis, setCachedAnalysis } from '@/lib/ai-cache';
 
@@ -21,26 +21,11 @@ const SECTIONS: {
   { key: 'importantNotes', title: 'Catatan penting' },
 ];
 
-function makeResultKey(result: ComparisonResult): string {
-  return [
-    result.winner,
-    result.loser,
-    result.strategies.length,
-    result.input.monthlyAmount,
-    result.input.startDate instanceof Date
-      ? result.input.startDate.toISOString().slice(0, 7)
-      : String(result.input.startDate),
-    result.input.endDate instanceof Date
-      ? result.input.endDate.toISOString().slice(0, 7)
-      : String(result.input.endDate),
-  ].join('-');
-}
-
 export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
   const [analysis, setAnalysis] = useState<AIAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const lastKey = useRef<string>('');
+  const [requested, setRequested] = useState(false);
 
   async function fetchAnalysis(forceRefresh = false) {
     if (!forceRefresh) {
@@ -69,13 +54,10 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
     }
   }
 
-  useEffect(() => {
-    const key = makeResultKey(result);
-    if (key === lastKey.current) return;
-    lastKey.current = key;
+  function handleRequest() {
+    setRequested(true);
     void fetchAnalysis();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [makeResultKey(result)]);
+  }
 
   return (
     <div className="mx-4 mb-4 p-4 rounded-xl border border-black/[0.08] bg-card">
@@ -96,6 +78,15 @@ export default function AIAnalysisPanel({ result }: AIAnalysisPanelProps) {
           </button>
         )}
       </div>
+
+      {!requested && !analysis && !loading && (
+        <button
+          onClick={handleRequest}
+          className="w-full py-2.5 rounded-lg border border-black/10 text-[12px] text-gray-500 hover:bg-soft transition-colors"
+        >
+          Hasilkan Analisis
+        </button>
+      )}
 
       {loading && (
         <div className="space-y-4 animate-pulse">
